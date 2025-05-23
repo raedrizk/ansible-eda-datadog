@@ -1,0 +1,17 @@
+---
+- name: Stress CPU on Linux
+  hosts: all
+  become: true
+  gather_facts: false
+  tasks:
+    - name: Install stress tool
+      ansible.builtin.package:
+        name: stress
+        state: present
+
+    - name: Stress CPU for 60 seconds
+      ansible.builtin.command:
+        cmd: "stress --cpu {{ stress_core_count }}"
+      async: 0
+      poll: 0
+      changed_when: false

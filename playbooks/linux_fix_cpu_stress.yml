@@ -1,0 +1,11 @@
+---
+- name: Kill Stress CPU process on Linux
+  hosts: all
+  become: true
+  gather_facts: false
+  tasks:
+    - name: Stress CPU for 60 seconds
+      ansible.builtin.command:
+        cmd: "killall -HUP stress"
+      register: stress_kill_output
+      changed_when: "stress" in stress_kill_output.stdout
