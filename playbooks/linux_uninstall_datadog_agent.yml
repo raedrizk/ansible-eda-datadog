@@ -1,0 +1,26 @@
+---
+- name: Uninstall the Datadog Agent and remove traces
+  hosts: all
+  become: true
+  gather_facts: false
+  tasks:
+    - name: Uninstall the Datadog Agent
+      ansible.builtin.dnf:
+        name: datadog-agent
+        state: absent
+
+    - name: Remove the Datadog user
+      ansible.builtin.user:
+        name: dd-agent
+        state: absent
+        remove: true
+
+    - name: Remove Datadog Agent configuration files
+      ansible.builtin.file:
+        path: "{{ item }}"
+        state: absent
+        recurse: true
+      loop:
+        - /etc/datadog-agent
+        - /var/log/datadog
+        - /opt/datadog-agent
