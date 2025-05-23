@@ -8,6 +8,7 @@
       ansible.builtin.dnf:
         name: "https://dl.fedoraproject.org/pub/epel/epel-release-latest-{{ ansible_facts['distribution_major_version'] }}.noarch.rpm"
         state: present
+        disable_gpg_check: true
       become: true
 
     - name: Install stress tool
