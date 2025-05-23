@@ -19,7 +19,6 @@
       ansible.builtin.file:
         path: "{{ item }}"
         state: absent
-        recurse: true
       loop:
         - /etc/datadog-agent
         - /var/log/datadog
