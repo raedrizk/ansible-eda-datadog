@@ -8,4 +8,3 @@
       ansible.builtin.command:
         cmd: "killall -HUP stress"
       register: stress_kill_output
-      changed_when: "stress" in stress_kill_output.stdout
