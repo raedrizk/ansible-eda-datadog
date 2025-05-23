@@ -1,0 +1,33 @@
+---
+- name: Install and configure the Datadog Agent
+  hosts: all
+  become: true
+  gather_facts: false
+  tasks:
+    - name: Datadog Agent Install
+      ansible.builtin.include_role:
+        name: datadog.dd.agent
+      vars:
+        datadog_api_key: "{{ datadog_api_key }}"
+        datadog_agent_version: "7.16.0"
+        datadog_config:
+          tags:
+            - "owner:rsoliman"
+            - "env:foxhound"
+          log_level: INFO
+          apm_config:
+            enabled: true
+          logs_enabled: true  # available with Agent v6 and v7
+          process_config:
+            enabled: "true"
+        datadog_checks:
+          process:
+            init_config:
+            instances:
+              - name: ssh
+                search_string: ['ssh', 'sshd']
+              - name: syslog
+                search_string: ['rsyslog']
+                cpu_check_interval: 0.2
+                exact_match: true
+                ignore_denied_access: true
