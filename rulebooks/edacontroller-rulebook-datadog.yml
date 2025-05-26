@@ -9,12 +9,16 @@
   rules:
       ## Define the conditions we are looking for
     - name: CPU Load Trigger
-      condition: "CPU Load is high" in event.payload.event_title
+      condition: event.payload.title contains "CPU Load is high"
       ## Define the action we should take should the condition be met
       action:
-        run_job_template:
-          name: EDADemo-action-webhook-single-condition
+        run_workflow_template:
+          name: WF_EDA_Action_Datadog_report_and_resolve_saturation_issue
           organization: "{{ job_templates_org_name | default('Foxhound') }}"
+          job_args:
+            limit: "{{ event.payload.reporting_host }}"
+            extra_vars:
+              reporting_host: "{{ event.payload.reporting_host }}"
 
 
 
