@@ -16,9 +16,7 @@
         name: stress
         state: present
 
-    - name: Stress CPU for 60 seconds
+    - name: Stress {{ stress_core_count }} cores of the CPU
       ansible.builtin.command:
-        cmd: "stress --cpu {{ stress_core_count }}"
-      async: 0
-      poll: 0
+        cmd: "nohup stress --cpu {{ stress_core_count }}"
       changed_when: false
