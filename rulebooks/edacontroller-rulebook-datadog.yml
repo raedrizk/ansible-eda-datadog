@@ -19,7 +19,3 @@
             limit: "{{ event.payload.reporting_host }}"
             extra_vars:
               reporting_host: "{{ event.payload.reporting_host }}"
-
-
-
-    
