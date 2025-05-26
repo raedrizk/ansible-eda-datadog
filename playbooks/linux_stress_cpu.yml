@@ -18,5 +18,5 @@
 
     - name: Stress {{ stress_core_count }} cores of the CPU
       ansible.builtin.command:
-        cmd: "nohup stress --cpu {{ stress_core_count }}"
+        cmd: "nohup stress --cpu {{ stress_core_count }}&"
       changed_when: false

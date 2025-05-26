@@ -4,7 +4,13 @@
   become: true
   gather_facts: false
   tasks:
-    - name: Stress CPU for 60 seconds
+    - name: Getting process IDs of the process
+      community.general.pids:
+        name: stress
+      register: pids_of_stress
+
+    - name: Kill all stress processes
       ansible.builtin.command:
-        cmd: "killall -HUP stress"
+        cmd: "kill -9 {{ pids_of_stress.pids | join(' ') }}"
       register: stress_kill_output
+      when: pids_of_stress.pids | length > 0
