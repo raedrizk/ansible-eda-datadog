@@ -4,6 +4,16 @@
   become: true
   gather_facts: false
   tasks:
+    - name: Ensure stress package is installed
+      ansible.builtin.package:
+        name: python3-pip
+        state: present
+
+    - name: Install psutil for process management
+      ansible.builtin.pip:
+        name: psutil
+        state: present
+
     - name: Getting process IDs of the process
       community.general.pids:
         name: stress
