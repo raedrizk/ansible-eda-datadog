@@ -25,7 +25,7 @@
       # and print them out for debugging purposes.
       # This is useful for understanding what other events are being sent by Datadog.
       # It is not necessary for the operation of the rulebook, but can help in development.
-      condition: event is defined
+      condition: event.payload is defined
       action:
         print_event:
           pretty: true
