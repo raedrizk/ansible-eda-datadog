@@ -9,7 +9,7 @@
   rules:
       ## Define the conditions we are looking for
     - name: CPU Load Trigger
-      condition: event.payload.title contains "CPU Load is high"
+      condition: event.payload.event_type == "query_alert_monitor" and event.payload.title contains "CPU Load is high"
       ## Define the action we should take should the condition be met
       action:
         run_workflow_template:
