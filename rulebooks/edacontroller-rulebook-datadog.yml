@@ -19,6 +19,18 @@
               reporting_host: "{{ event.payload.reporting_host }}"
               event_id: "{{ event.payload.id }}"
 
+    - name: Memory Load Trigger
+      condition: event.payload.event_type == "query_alert_monitor" and event.payload.title contains "Memory" and not event.payload.title contains "Recovered"
+      action:
+        run_workflow_template:
+          name: WF_EDA_Action_Datadog_report_and_resolve_saturation_issue
+          organization: "{{ job_templates_org_name | default('Foxhound') }}"
+          job_args:
+            limit: "{{ event.payload.reporting_host }}"
+            extra_vars:
+              reporting_host: "{{ event.payload.reporting_host }}"
+              event_id: "{{ event.payload.id }}"
+
     - name: Catch all other events
       # This rule will catch all other events that do not match the previous condition
       # and print them out for debugging purposes.
