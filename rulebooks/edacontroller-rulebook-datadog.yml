@@ -7,10 +7,8 @@
         host: 0.0.0.0
         port: 5000
   rules:
-      ## Define the conditions we are looking for
     - name: CPU Load Trigger
-      condition: event.payload.event_type == "query_alert_monitor" or event.payload.title contains "CPU"
-      ## Define the action we should take should the condition be met
+      condition: event.payload.event_type == "query_alert_monitor" and event.payload.title contains "CPU" and not event.payload.title contains "Recovered"
       action:
         run_workflow_template:
           name: WF_EDA_Action_Datadog_report_and_resolve_saturation_issue
@@ -19,6 +17,7 @@
             limit: "{{ event.payload.reporting_host }}"
             extra_vars:
               reporting_host: "{{ event.payload.reporting_host }}"
+              event_id: "{{ event.payload.id }}"
 
     - name: Catch all other events
       # This rule will catch all other events that do not match the previous condition
