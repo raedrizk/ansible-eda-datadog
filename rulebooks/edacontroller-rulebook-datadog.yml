@@ -8,7 +8,7 @@
         port: 5000
   rules:
     - name: CPU Load Trigger
-      condition: event.payload.event_type == "query_alert_monitor" and event.payload.title contains "CPU" and not event.payload.title contains "Recovered"
+      condition: event.payload.event_type == "query_alert_monitor" and event.payload.title is search('CPU',ignorecase=true) and event.payload.title is not search('Recovered',ignorecase=true)
       action:
         run_workflow_template:
           name: WF_EDA_Action_Datadog_report_and_resolve_saturation_issue
@@ -20,7 +20,7 @@
               event_id: "{{ event.payload.id }}"
 
     - name: Memory Load Trigger
-      condition: event.payload.event_type == "query_alert_monitor" and event.payload.title contains "Memory" and not event.payload.title contains "Recovered"
+      condition: event.payload.event_type == "query_alert_monitor" and event.payload.title is search('Memory',ignorecase=true) and event.payload.title is not search('Recovered',ignorecase=true)
       action:
         run_workflow_template:
           name: WF_EDA_Action_Datadog_report_and_resolve_saturation_issue
